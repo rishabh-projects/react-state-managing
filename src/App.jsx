@@ -13,10 +13,17 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getProducts("shoes")
-     .then((response) => setProducts(response))
-     .catch((e) => setError(e))
-     .finally(() => setLoading(false));
+    async function init() {
+      try {
+        const response = await getProducts("shoes");
+        setProducts(response);
+      } catch (e) {
+        setError(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    init(),
   }, []);
 
   function renderProduct(p) {
@@ -37,7 +44,7 @@ export default function App() {
 
   if (error) throw error;
   if (loading) return <Spinner />;
-  
+
   return (
     <>
       <div className="content">
