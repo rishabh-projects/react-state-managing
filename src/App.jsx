@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -44,17 +44,21 @@ const products = [
 ]
 
 export default function App() {
-  // function renderProduct(p) {
-  //   return (
-  //     <div key={p.id} className="product">
-  //       <a href="/">
-  //         <img src={`/images/${p.image}`} alt={p.name} />
-  //         <h3>{p.name}</h3>
-  //         <p>${p.price}</p>
-  //       </a>
-  //     </div>
-  //   );
-  // }
+  function renderProduct(p) {
+    return (
+      <div key={p.id} className="product">
+        <a href="/">
+          <img src={`/images/${p.image}`} alt={p.name} />
+          <h3>{p.name}</h3>
+          <p>${p.price}</p>
+        </a>
+      </div>
+    );
+  }
+
+  const filteredProducts = size
+    ? products.filter((p) => p.skus.find((s) => s.size === parseInt(size)))
+    : products;
 
   return (
     <>
@@ -69,8 +73,9 @@ export default function App() {
               <option value="8">8</option>
               <option value="9">9</option>
             </select>
+            {size && <h2>Found {filteredProducts.length} items</h2>}
           </section>
-          <section id="products">{products.map(renderProduct)}</section>
+          <section id="products">{filteredProducts.map(renderProduct)}</section>
         </main>
       </div>
       <Footer />
